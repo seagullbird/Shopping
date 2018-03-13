@@ -48,6 +48,29 @@ const store = new Vuex.Store({
     mutations: {
         setProductList (state, data) {
             state.productList = data;
+        },
+        addCart (state, id) {
+            const currentProduct = state.cartList.find(item => item.id === id);
+            if (currentProduct) {
+                currentProduct.count++;
+            } else {
+                state.cartList.push({
+                    id: id,
+                    count: 1
+                });
+            }
+        },
+        editCartItem (state, newItem) {
+            const currentItem = state.cartList.find(item => item.id === newItem.id);
+            if (!currentItem) return;
+            currentItem.count = newItem.count;
+        },
+        deleteCartItem (state, id) {
+            const index = state.cartList.findIndex(item => item.id === id);
+            state.cartList.splice(index, 1);
+        },
+        emptyCart (state) {
+            state.cartList = [];
         }
     },
     actions: {
@@ -55,6 +78,14 @@ const store = new Vuex.Store({
             setTimeout(() => {
                 context.commit('setProductList', product_data);
             }, 100);
+        },
+        buy (context) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    context.commit('emptyCart');
+                    resolve();
+                }, 500);
+            });
         }
     }
 });

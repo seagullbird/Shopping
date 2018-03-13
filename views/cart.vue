@@ -40,7 +40,7 @@
         </div>
         <div class="cart-promotion" v-show="cartList.length">
             <span>使用优惠码：</span>
-            <input type="text" v-model="promotionCode">
+            <input type="text" v-model="promotionCode" placeholder="Try 'seagullbird'~">
             <span
                 class="cart-control-promotion"
                 @click="handleCheckPromoCode">验证</span>
@@ -118,7 +118,7 @@
                 })
             },
             handleCheckPromoCode () {
-                if (this.promotionCode === 'cqy') {
+                if (this.promotionCode === 'seagullbird') {
                     this.promotion = 500;
                 } else {
                     this.promotion = 0;

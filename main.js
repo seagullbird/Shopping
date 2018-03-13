@@ -46,7 +46,7 @@ const store = new Vuex.Store({
         getProductList (context) {
             setTimeout(() => {
                 context.commit('setProductList', product_data);
-            }, 500);
+            }, 100);
         }
     }
 });

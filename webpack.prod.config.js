@@ -9,7 +9,7 @@ webpackBaseConfig.plugins = [];
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: '',
+        publicPath: '/',
         // 将入口文件重命名为带有 20 位 hash 值的唯一文件
         filename: '[name].[hash].js'
     },

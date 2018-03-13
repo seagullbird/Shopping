@@ -23,6 +23,26 @@
                     <template v-if="order === 'cost-desc'">↓</template>
                 </span>
             </div>
+            <div class="list-control-filter">
+                <span>品牌：</span>
+                <span
+                    v-for="brand in brands"
+                    class="list-control-filter-item"
+                    :class="{on: filterBrand === brand}"
+                    @click="handleFilterBrand(brand)">
+                    {{ brand }}
+                </span>
+            </div>
+            <div class="list-control-filter">
+                <span>颜色：</span>
+                <span
+                    v-for="color in colors"
+                    class="list-control-filter-item"
+                    :class="{on: filterColor === color}"
+                    @click="handleFilterColor(color)">
+                    {{ color }}
+                </span>
+            </div>
         </div>
         <Product v-for="item in filteredAndOrderedList"
             :info="item"
@@ -43,18 +63,32 @@
                 // sales （销量）
                 // cost-desc（价格降序）
                 // cost-asc （价格升序）
-                order: ''
+                order: '',
+                filterBrand: '',
+                filterColor: ''
             }
         },
         computed: {
             list () {
                 return this.$store.state.productList;
             },
+            brands () {
+                return this.$store.getters.brands;
+            },
+            colors () {
+                return this.$store.getters.colors;
+            },
             filteredAndOrderedList () {
                 // 复制原始数据
                 let list = [...this.list];
-                // TODO:按品牌过滤
-                // TODO:按颜色过滤
+                // 按品牌过滤
+                if (this.filterBrand !== '') {
+                    list = list.filter(item => item.brand === this.filterBrand);
+                }
+                // 按颜色过滤
+                if (this.filterColor !== '') {
+                    list = list.filter(item => item.color === this.filterColor);
+                }
                 // 排序
                 if (this.order !== '') {
                     if (this.order === 'sales') {
@@ -81,6 +115,20 @@
                 } else {
                     this.order = 'cost-desc';
                 }
+            },
+            handleFilterBrand (brand) {
+                if (this.filterBrand !== brand) {
+                    this.filterBrand = brand;
+                } else {
+                    this.filterBrand = '';
+                }
+            },
+            handleFilterColor (color) {
+                if (this.filterColor !== color) {
+                    this.filterColor = color;
+                } else {
+                    this.filterColor = '';
+                }
             }
         },
         mounted () {
@@ -100,6 +148,7 @@
         padding: 16px;
         box-shadow: 0 1px 1px rgba(0,0,0,.2);
     }
+    .list-control-order,
     .list-control-filter{
         margin-bottom: 16px;
     }

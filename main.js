@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Routers from './router.js';
 import Vuex from 'vuex';
 import App from './app.vue';
+import Util from './libs/util.js'
 import './style.css';
 import product_data from './product.js';
 
@@ -35,7 +36,14 @@ const store = new Vuex.Store({
         cartList: []
     },
     getters: {
-
+        brands: state => {
+            const brands = state.productList.map(item => item.brand);
+            return Util.getFilteredArray(brands);
+        },
+        colors: state => {
+            const colors = state.productList.map(item => item.color);
+            return Util.getFilteredArray(colors);
+        }
     },
     mutations: {
         setProductList (state, data) {

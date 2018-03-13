@@ -4,6 +4,7 @@ import Routers from './router.js';
 import Vuex from 'vuex';
 import App from './app.vue';
 import './style.css';
+import product_data from './product.js';
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -28,16 +29,25 @@ router.afterEach((to, from, next) => {
 
 const store = new Vuex.Store({
     state: {
-
+        // 商品列表数据
+        productList: [],
+        // 购物车数据
+        cartList: []
     },
     getters: {
 
     },
     mutations: {
-
+        setProductList (state, data) {
+            state.productList = data;
+        }
     },
     actions: {
-
+        getProductList (context) {
+            setTimeout(() => {
+                context.commit('setProductList', product_data);
+            }, 500);
+        }
     }
 });
 
